@@ -6,7 +6,7 @@
 
 package gomoku;
 
-import gomoku.GUI.PanelLayout;
+import gomoku.GUI.RootLayout;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,12 +22,12 @@ import javafx.stage.Stage;
  */
 public class Gomoku extends Application {
     
-    private final PanelLayout panelLayout = new PanelLayout();
+    private final RootLayout rootLayout = new RootLayout();
     
     @Override
     public void start(Stage primaryStage) {        
                         
-        Scene scene = new Scene(panelLayout.getRoot());
+        Scene scene = new Scene(rootLayout.getRoot());
         
         primaryStage.setTitle("Gomoku");
         primaryStage.setScene(scene);

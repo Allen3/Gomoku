@@ -18,7 +18,7 @@ import javafx.scene.shape.Circle;
  *
  * @author allen
  */
-public class PanelLayout {
+public class RootLayout {
         
     private final Parent root;
     
@@ -28,14 +28,16 @@ public class PanelLayout {
     
     private Desk desk;
 
-    public PanelLayout() {
-        this.numOfRows_Desk = 10;
-        this.numOfColumns_Desk = 10;
+    public RootLayout() {
+        this.numOfRows_Desk = 9;
+        this.numOfColumns_Desk = 9;
         this.gridInterval_Desk = 50;
         
         desk = new Desk(numOfRows_Desk, numOfColumns_Desk, gridInterval_Desk);
                 
         this.root = desk;
+        
+        desk.setChessman(0);        
                 
     }   //panel()
         
@@ -44,4 +46,4 @@ public class PanelLayout {
         return root;
     }   //getRoot()              
     
-}   //PanelLayout
+}   //RootLayout
