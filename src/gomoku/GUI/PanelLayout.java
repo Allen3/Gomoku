@@ -22,18 +22,18 @@ public class PanelLayout {
         
     private final Parent root;
     
-    private final int numOfRows;
-    private final int numOfColumns;
-    private final int gridInterval;
+    private final int numOfRows_Desk;
+    private final int numOfColumns_Desk;
+    private final int gridInterval_Desk;
     
     private Desk desk;
 
     public PanelLayout() {
-        this.numOfRows = 10;
-        this.numOfColumns = 10;
-        this.gridInterval = 50;
+        this.numOfRows_Desk = 10;
+        this.numOfColumns_Desk = 10;
+        this.gridInterval_Desk = 50;
         
-        desk = new Desk(numOfRows, numOfColumns, gridInterval);
+        desk = new Desk(numOfRows_Desk, numOfColumns_Desk, gridInterval_Desk);
                 
         this.root = desk;
                 
