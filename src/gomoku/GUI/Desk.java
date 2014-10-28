@@ -122,9 +122,14 @@ public class Desk extends Pane {
             
         });
         
-        
-        
+        observableIntegerArrayHandling();
     }   //setChessman()
+    
+    private void observableIntegerArrayHandling() {
+        
+        
+    }   //observableIntegerArrayHandling()
+    
     
     /**
      * 

@@ -36,9 +36,8 @@ public class RootLayout {
         desk = new Desk(numOfRows_Desk, numOfColumns_Desk, gridInterval_Desk);
                 
         this.root = desk;
-        
-        desk.setChessman(0);        
                 
+        desk.setChessman(0);
     }   //panel()
         
 
