@@ -1,7 +1,10 @@
 package gomoku.GUI;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,12 +34,14 @@ public class PanelLayout {
         this.gridInterval = 50;
         
         desk = new Desk(numOfRows, numOfColumns, gridInterval);
-        
+                
         this.root = desk;
+                
     }   //panel()
+        
 
     public Parent getRoot() {
         return root;
-    }   //getRoot()           
+    }   //getRoot()              
     
 }   //PanelLayout
