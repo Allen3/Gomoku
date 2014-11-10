@@ -24,6 +24,7 @@ public class Chess extends Circle {
 
     public Chess(int numOfRows, int numOfColumns, int gridInterval, 
             Paint filledColor) {
+        
         this.numOfRows = numOfRows;
         this.numOfColumns = numOfColumns;
         this.gridInterval = gridInterval;
@@ -33,23 +34,5 @@ public class Chess extends Circle {
         //TO-DO        
         
     }   //Chess()
-
-    /**
-     * Set the chess as an active state.
-     */
-    public void setActive() {
-        this.setDisable(false);
-        this.setEffect(new DropShadow());
-        this.toFront();
-    }   //setActive()
-    
-    /**
-     * Set the chess as an inactive state.
-     */
-    public void setInactive() {
-        this.setDisable(true);
-        this.setEffect(null);
-        this.toBack();
-    }   //setInactive()
-                        
+                           
 }   //Chess

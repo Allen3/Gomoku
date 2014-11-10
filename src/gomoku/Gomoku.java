@@ -6,14 +6,8 @@
 
 package gomoku;
 
-import gomoku.GUI.RootLayout;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -21,8 +15,12 @@ import javafx.stage.Stage;
  * @author allen
  */
 public class Gomoku extends Application {
-    
-    private final RootLayout rootLayout = new RootLayout();
+        
+    private final RootLayout rootLayout;    
+
+    public Gomoku() {        
+        rootLayout = new RootLayout();
+    }   //Gomoku()        
     
     @Override
     public void start(Stage primaryStage) {        

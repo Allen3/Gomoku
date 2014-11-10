@@ -6,6 +6,8 @@
 
 package gomoku.GUI;
 
+import gomoku.business.DeskController;
+import gomoku.business.Judger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 import javafx.geometry.Point2D;
@@ -23,6 +25,7 @@ import javafx.scene.shape.Path;
  * @author allen
  */
 public class Desk extends Pane {
+    private final DeskController deskController;
     
     protected final static double PADSPACE = 50.0f;
     protected final static double CHESSMANRADIUS = 20.0f;
@@ -34,14 +37,9 @@ public class Desk extends Pane {
     protected final double deskWidth;
     protected final double deskHeight;
     
-    private Path grid = null;
-        
-    private final ObservableIntegerArray observableIntegerArray;
+    private Path grid = null;               
     
-    public Desk(int numOfRows, int numOfColumns, int gridInterval) {
-        observableIntegerArray = FXCollections.observableIntegerArray();    
-        observableIntegerArray.resize((numOfRows + 1) * (numOfColumns + 1));
-        
+    public Desk(int numOfRows, int numOfColumns, int gridInterval) {                        
         this.numOfRows = numOfRows;
         this.numOfColumns = numOfColumns;
         this.gridInterval = gridInterval;
@@ -56,8 +54,10 @@ public class Desk extends Pane {
         grid = gridGenerate();
         
         this.getChildren().add(grid);                       
-                        
-    }   //Desk()
+
+        // Should be assigned here as the desk finish initializing.
+        deskController = new DeskController(this);
+    }   //Desk()   
 
     /**
      * 
@@ -85,7 +85,24 @@ public class Desk extends Pane {
        return grid;
     }   //gridGenerate()                       
     
+    /**
+     * Set the chess as an active state.
+     */
+    public void setActive() {
+        this.setDisable(false);
+        //this.setEffect(new DropShadow());
+        //this.toFront();
+    }   //setActive()
     
+    /**
+     * Set the chess as an inactive state.
+     */
+    public void setInactive() {
+        this.setDisable(true);
+        //this.setEffect(null);
+        //this.toBack();
+    }   //setInactive()
+        
     public void setChessman(int player) {
         Circle chessman = new Circle();
         this.getChildren().add(chessman);
@@ -116,20 +133,13 @@ public class Desk extends Pane {
                 chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
                 chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
                      
-                observableIntegerArray.set(row * (numOfColumns + 1) + col, 1);                
-                //this.setDisable(true);                
+                deskController.getJudger().getObservableIntegerArray().set(row * (numOfColumns + 1) + col, player);                
+//TEST
+                System.out.println("row = " + row + " col = " + col);
             }   
             
-        });
-        
-        observableIntegerArrayHandling();
-    }   //setChessman()
-    
-    private void observableIntegerArrayHandling() {
-        
-        
-    }   //observableIntegerArrayHandling()
-    
+        });            
+    }   //setChessman()            
     
     /**
      * 
@@ -170,4 +180,16 @@ public class Desk extends Pane {
         
         return minDistancePos;        
     }   //checkAround
+    
+    public int getNumOfRows() {
+        return numOfRows;
+    }   //getNumOfRows()
+
+    public int getNumOfColumns() {
+        return numOfColumns;
+    }   //getNumOfColumns()
+    
+    public DeskController getDeskController() {
+        return deskController;
+    }   //getDeskController()
 }   //Desk

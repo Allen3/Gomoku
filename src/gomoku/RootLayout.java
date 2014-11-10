@@ -1,10 +1,7 @@
-package gomoku.GUI;
+package gomoku;
 
-import javafx.event.EventHandler;
-import javafx.scene.Group;
+import gomoku.GUI.Desk;
 import javafx.scene.Parent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,25 +16,25 @@ import javafx.scene.shape.Circle;
  * @author allen
  */
 public class RootLayout {
-        
+       
     private final Parent root;
     
     private final int numOfRows_Desk;
     private final int numOfColumns_Desk;
     private final int gridInterval_Desk;
-    
-    private Desk desk;
+            
+    private final Desk desk;            
 
     public RootLayout() {
         this.numOfRows_Desk = 9;
         this.numOfColumns_Desk = 9;
-        this.gridInterval_Desk = 50;
+        this.gridInterval_Desk = 50;                
         
         desk = new Desk(numOfRows_Desk, numOfColumns_Desk, gridInterval_Desk);
                 
-        this.root = desk;
-                
-        desk.setChessman(0);
+        this.root = desk;      
+        
+        desk.getDeskController().setOffensivePlayer(1);
     }   //panel()
         
 
