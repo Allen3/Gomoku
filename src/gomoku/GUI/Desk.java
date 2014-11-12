@@ -130,12 +130,20 @@ public class Desk extends Pane {
             Point2D targetPos = checkAround(newTranslateX, newTranslateY , col, row);
             
             if (targetPos != null) {
-                chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
-                chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
+                int coordinate = (int) (targetPos.getY() * (numOfColumns + 1) + targetPos.getX());
+//TEST
+                System.out.println("Coordinate = " + coordinate);
+//TEST
+                    System.out.println("Value of the coordinate = " +
+                            deskController.getJudger().getObservableIntegerArray().get(coordinate));                
+                
+                if (deskController.getJudger().isSettable(coordinate) == true) {                
+                    
+                    chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
+                    chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
                      
-                deskController.getJudger().getObservableIntegerArray().set(
-                        (int) (targetPos.getY() * (numOfColumns + 1) + targetPos.getX()), 
-                        player);                
+                    deskController.getJudger().getObservableIntegerArray().set(coordinate, player);                
+                }
 //TEST
                 System.out.println("row(rounded) = " + targetPos.getY() + " column(rounded) = " + targetPos.getX());                
             }   

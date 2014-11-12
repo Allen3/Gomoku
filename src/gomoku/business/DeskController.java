@@ -36,6 +36,7 @@ public class DeskController {
      * @param player value varies between 1 and 2 which represents the player respectively.
      */
     public void setOffensivePlayer(int offensivePlayer) {
+        this.offensivePlayer = offensivePlayer;
         desk.setActive();
         
         round ++;

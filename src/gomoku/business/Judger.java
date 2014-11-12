@@ -54,6 +54,7 @@ public class Judger {
         */
                 
         observableIntegerArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
+//TEST         
             System.out.println("from = " + from + " to = " + to);
             
             deskController.getDesk().setInactive();
@@ -79,6 +80,17 @@ public class Judger {
         
         
     }   //judge()
+    
+    /**
+     * 
+     * @param coordinate the coordinate the chessman laid.
+     * @return the state whether the chessman is able to be laid there.
+     */
+    public boolean isSettable(int coordinate) {
+        if (observableIntegerArray.get(coordinate) == 0)
+            return true;
+        return false;
+    }   //isSettable()
     
     public ObservableIntegerArray getObservableIntegerArray() {
         return observableIntegerArray;
