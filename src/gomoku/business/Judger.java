@@ -15,43 +15,27 @@ import javafx.collections.ObservableIntegerArray;
  * The back-end class to judge the state of the game.
  * @author allen
  */
-public class Judger {
+public class Judger {        
     private DeskController deskController;
     
     private final ObservableIntegerArray observableIntegerArray;    
+    
+    private final int deskNumOfRows;
+    private final int deskNumOfColumns;
 
     public Judger(DeskController deskController, int numOfRows, int numOfColumns) {
         this.deskController = deskController;
-        
+                        
         observableIntegerArray = FXCollections.observableIntegerArray();    
+        
+        this.deskNumOfRows = numOfRows;
+        this.deskNumOfColumns = numOfColumns;
         
         // Assure that the array has no preset value.
         observableIntegerArray.clear();
         observableIntegerArray.resize((numOfRows + 1) * (numOfColumns + 1));
 //TEST
-        System.out.println("numOfRows = " + numOfRows + " numOfColumns = " + numOfColumns);
-        
-        /*
-        observableIntegerArray.addListener((Observable observable) -> {
-//TEST
-            System.out.println(observable.toString());
-            
-            deskController.getDesk().setInactive();
-                                    
-            //game continues
-            if (judge(observable) == 0) {                
-                deskController.getDesk().setActive();
-                
-                // A new round begins.
-                deskController.roundInc();
-                deskController.getDesk().setChessman(deskController.getRoundPlayer());
-                                                
-            } else {
-                System.out.println("Player " + judge(observable) + " wins!");
-            }
-            
-        });
-        */
+        System.out.println("numOfRows = " + numOfRows + " numOfColumns = " + numOfColumns);                
                 
         observableIntegerArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
 //TEST         
@@ -60,7 +44,8 @@ public class Judger {
             deskController.getDesk().setInactive();
                                     
             //game continues
-            if (judge(observable) == 0) {                
+            int judgeResult = judge(from);
+            if (judgeResult == 0) {                
                 deskController.getDesk().setActive();
                 
                 // A new round begins.
@@ -68,12 +53,20 @@ public class Judger {
                 deskController.getDesk().setChessman(deskController.getRoundPlayer());
                                                 
             } else {
-                System.out.println("Player " + judge(observable) + " wins!");
+                System.out.println("Player " + judgeResult + " wins!");
             }
         });        
     }   //Judger()
-
-    private int judge(Observable observableIntegerArray) {
+    
+    /**
+     * 
+     * @param coordinate the coordinate to be judged.
+     * @return the player ID for the winner, 0 for game going on.
+     */
+    private int judge(int coordinate) {
+        
+        // Apply a BFS on searching for state result.
+        
         
         // TO-do
         return 0;
