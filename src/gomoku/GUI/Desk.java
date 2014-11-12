@@ -133,9 +133,11 @@ public class Desk extends Pane {
                 chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
                 chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
                      
-                deskController.getJudger().getObservableIntegerArray().set(row * (numOfColumns + 1) + col, player);                
+                deskController.getJudger().getObservableIntegerArray().set(
+                        (int) (targetPos.getY() * (numOfColumns + 1) + targetPos.getX()), 
+                        player);                
 //TEST
-                System.out.println("row = " + row + " col = " + col);
+                System.out.println("row(rounded) = " + targetPos.getY() + " column(rounded) = " + targetPos.getX());                
             }   
             
         });            
