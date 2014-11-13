@@ -1,6 +1,11 @@
 #This repo is managed by NetBeans IDE.
 dist/
+dist/*
 nbdist/
+nbdist/*
 build/
+build/*
 nbbuild/
+nbbuild/*
 nbproject/private
+nbproject/private/*
