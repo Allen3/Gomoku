@@ -63,15 +63,75 @@ public class Judger {
      * @param coordinate the coordinate to be judged.
      * @return the player ID for the winner, 0 for game going on.
      */
-    private int judge(int coordinate) {
+    private int judge(int coordinate) {        
+        int valueOfCoordinate = observableIntegerArray.get(coordinate);
         
-        // Apply a BFS on searching for state result.
+        int countOfSameChessman = 1;        
+        // Right check.
+        for (int i = 1;i < 5;i ++) {
+            // Same row and same value.
+            if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    observableIntegerArray.get(coordinate - i) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }            
+        }
+        
+        // Left check.
+        for (int i = 1;i < 5;i ++) {
+            // Same row and same vlaue.
+            if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }
+        }        
+        if (countOfSameChessman >= 5)
+            return valueOfCoordinate;
+        
+        countOfSameChessman = 1;
+        // Down check.
+        for (int i = 1;i < 5;i ++) {
+            // Same column and same value.
+            if (((coordinate + i * (deskNumOfColumns + 1)) <= (deskNumOfRows * (deskNumOfRows + 1))) &&
+                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }
+        }
+        
+        // Up check.
+        for (int i = 1;i < 5;i ++) {
+            // Same column and same value.
+            if (((coordinate - i * (deskNumOfColumns + 1)) >= 0) &&
+                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }
+        }
+        if (countOfSameChessman >= 5)
+            return valueOfCoordinate;
+        
+        countOfSameChessman = 1;
+        // Right-down check.
+        for (int i = 1;i < 5;i ++) {
+            //To-do
+        }
+        
+        // Left-up check.
+        for (int i = 1;i < 5;i ++) {
+            //To-do
+        }
+        if (countOfSameChessman >= 5)
+            return valueOfCoordinate;
         
         
-        // TO-do
-        return 0;
-        
-        
+        // Game continues, nobody wins.
+        return 0;                
     }   //judge()
     
     /**
