@@ -6,6 +6,7 @@
 
 package gomoku.business;
 
+import gomoku.util.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 
@@ -38,8 +39,8 @@ public class Judger {
             deskController.getDesk().setInactive();
                                     
             //game continues
-            int judgeResult = judge(from);
-            if (judgeResult == 0) {                
+            Player judgeResult = judge(from);
+            if (judgeResult == Player.NO_END) {
                 deskController.getDesk().setActive();
                 
                 // A new round begins.
@@ -57,7 +58,7 @@ public class Judger {
      * @param coordinate the coordinate to be judged.
      * @return the player ID for the winner, 0 for game going on.
      */
-    private int judge(int coordinate) {        
+    private Player judge(int coordinate) {
         int coordinateMaxBound = deskNumOfRows * (deskNumOfColumns + 1);
         int coordinateMinBound = 0;
         
@@ -87,7 +88,7 @@ public class Judger {
             }
         }        
         if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+            return Player.getPlayer(valueOfCoordinate);
         
         
         // Of the same column.
@@ -114,7 +115,7 @@ public class Judger {
             }
         }
         if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+            return Player.getPlayer(valueOfCoordinate);
         
         
         // Of the same principal diagonal.
@@ -144,7 +145,7 @@ public class Judger {
             }
         }
         if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+            return Player.getPlayer(valueOfCoordinate);
         
         
        //Of the same deputy diagonal.
@@ -174,10 +175,10 @@ public class Judger {
             }
         }
         if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+            return Player.getPlayer(valueOfCoordinate);
         
         // Game continues, nobody wins.
-        return 0;                
+        return Player.NO_END;
     }   //judge()
     
     /**
