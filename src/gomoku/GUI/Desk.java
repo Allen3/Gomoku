@@ -8,6 +8,7 @@ package gomoku.GUI;
 
 import gomoku.business.DeskController;
 import gomoku.business.Judger;
+import gomoku.util.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 import javafx.geometry.Point2D;
@@ -104,10 +105,10 @@ public class Desk extends Pane {
         //this.toBack();
     }   //setInactive()
         
-    public void setChessman(int player) {
+    public void setChessman(Player player) {
         Circle chessman = new Circle();
-        // Applay different colors for different players.
-        if (player == 2) {
+        // Apply different colors for different players.
+        if (player == Player.PLAYER_B) {
             chessman.setFill(Color.rgb(91, 127, 255));
         }
         
@@ -143,7 +144,7 @@ public class Desk extends Pane {
                     chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
                     chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
                      
-                    deskController.getJudger().getObservableIntegerArray().set(coordinate, player);                
+                    deskController.getJudger().getObservableIntegerArray().set(coordinate, player.getId());
                 }
             }   
             

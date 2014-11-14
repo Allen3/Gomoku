@@ -1,6 +1,7 @@
 package gomoku;
 
 import gomoku.GUI.Desk;
+import gomoku.util.Player;
 import javafx.scene.Parent;
 
 /*
@@ -34,7 +35,7 @@ public class RootLayout {
                 
         this.root = desk;      
         
-        desk.getDeskController().setOffensivePlayer(1);
+        desk.getDeskController().setOffensivePlayer(Player.PLAYER_A);
     }   //panel()
         
 

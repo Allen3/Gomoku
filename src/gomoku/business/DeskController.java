@@ -8,6 +8,7 @@ package gomoku.business;
 
 import gomoku.GUI.Desk;
 import gomoku.RootLayout;
+import gomoku.util.Player;
 
 /**
  *
@@ -19,7 +20,7 @@ public class DeskController {
     private final Desk desk;
     
     private int round;
-    private int offensivePlayer;    
+    private Player offensivePlayer;
     
     public DeskController(Desk desk) {        
         this.desk = desk;
@@ -35,7 +36,7 @@ public class DeskController {
      * 
      * @param player value varies between 1 and 2 which represents the player respectively.
      */
-    public void setOffensivePlayer(int offensivePlayer) {
+    public void setOffensivePlayer(Player offensivePlayer) {
         this.offensivePlayer = offensivePlayer;
         desk.setActive();
         
@@ -47,14 +48,16 @@ public class DeskController {
      * 
      * @return The player who are supposed to lay the chessman in this round.
      */
-    public int getRoundPlayer() {
+    public Player getRoundPlayer() {
         if (round % 2 != 0) {
             return offensivePlayer;
         } else {
-            return (3 - offensivePlayer);
+            return (offensivePlayer.switchPlayer());
         }
     }   //getRoundPlayer()
-    
+
+    public Player getOffensivePlayer() { return offensivePlayer; }   //getOffensivePlayer()
+
     public Judger getJudger() {
         return judger;
     }   //getJudger()

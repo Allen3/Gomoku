@@ -6,8 +6,6 @@
 
 package gomoku.business;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 
@@ -64,10 +62,6 @@ public class Judger {
         int coordinateMinBound = 0;
         
         int valueOfCoordinate = observableIntegerArray.get(coordinate);
-        
-        //TEST
-        System.out.println("coordinate = " + coordinate);
-        System.out.println("valueOfCoordinate = " + valueOfCoordinate);
         
         // Of the same row.
         int countOfSameChessman = 1;                
