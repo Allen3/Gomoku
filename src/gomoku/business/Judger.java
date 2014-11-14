@@ -34,12 +34,8 @@ public class Judger {
         // Assure that the array has no preset value.
         observableIntegerArray.clear();
         observableIntegerArray.resize((numOfRows + 1) * (numOfColumns + 1));
-//TEST
-        System.out.println("numOfRows = " + numOfRows + " numOfColumns = " + numOfColumns);                
                 
         observableIntegerArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
-//TEST         
-            System.out.println("from = " + from + " to = " + to);
             
             deskController.getDesk().setInactive();
                                     
@@ -64,14 +60,22 @@ public class Judger {
      * @return the player ID for the winner, 0 for game going on.
      */
     private int judge(int coordinate) {        
+        int coordinateMaxBound = deskNumOfRows * (deskNumOfColumns + 1);
+        int coordinateMinBound = 0;
+        
         int valueOfCoordinate = observableIntegerArray.get(coordinate);
         
-        int countOfSameChessman = 1;        
+        //TEST
+        System.out.println("coordinate = " + coordinate);
+        System.out.println("valueOfCoordinate = " + valueOfCoordinate);
+        
+        // Of the same row.
+        int countOfSameChessman = 1;                
         // Right check.
-        for (int i = 1;i < 5;i ++) {
+        for (int i = 1;i < 5;i ++) {            
             // Same row and same value.
-            if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
-                    observableIntegerArray.get(coordinate - i) == valueOfCoordinate) {
+            if ((coordinate + i <= coordinateMaxBound) && (((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) && 
+                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {
                 countOfSameChessman ++;
             } else {
                 break;
@@ -81,8 +85,8 @@ public class Judger {
         // Left check.
         for (int i = 1;i < 5;i ++) {
             // Same row and same vlaue.
-            if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
-                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {
+            if ((coordinate - i >= coordinateMinBound) && (((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    observableIntegerArray.get(coordinate - i) == valueOfCoordinate) {
                 countOfSameChessman ++;
             } else {
                 break;
@@ -91,11 +95,13 @@ public class Judger {
         if (countOfSameChessman >= 5)
             return valueOfCoordinate;
         
+        
+        // Of the same column.
         countOfSameChessman = 1;
         // Down check.
         for (int i = 1;i < 5;i ++) {
             // Same column and same value.
-            if (((coordinate + i * (deskNumOfColumns + 1)) <= (deskNumOfRows * (deskNumOfRows + 1))) &&
+            if (((coordinate + i * (deskNumOfColumns + 1)) <= coordinateMaxBound) &&
                     observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
                 countOfSameChessman ++;
             } else {
@@ -106,7 +112,7 @@ public class Judger {
         // Up check.
         for (int i = 1;i < 5;i ++) {
             // Same column and same value.
-            if (((coordinate - i * (deskNumOfColumns + 1)) >= 0) &&
+            if (((coordinate - i * (deskNumOfColumns + 1)) >= coordinateMinBound) &&
                     observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
                 countOfSameChessman ++;
             } else {
@@ -116,19 +122,65 @@ public class Judger {
         if (countOfSameChessman >= 5)
             return valueOfCoordinate;
         
+        
+        // Of the same principal diagonal.
         countOfSameChessman = 1;
         // Right-down check.
-        for (int i = 1;i < 5;i ++) {
-            //To-do
+        for (int i = 1;i < 5;i ++) {           
+            // Same principal diagonal and same value.
+            if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    ((coordinate + i * (deskNumOfColumns + 1) + i) <= coordinateMaxBound) && 
+                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
+                
+                countOfSameChessman ++;                
+            } else {
+                break;
+            }            
         }
         
         // Left-up check.
         for (int i = 1;i < 5;i ++) {
-            //To-do
+            // Same principal diagonal and same value.
+            if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    ((coordinate - i * (deskNumOfColumns + 1) - i) >= coordinateMinBound) &&
+                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }
         }
         if (countOfSameChessman >= 5)
             return valueOfCoordinate;
         
+        
+       //Of the same deputy diagonal.
+       countOfSameChessman = 1;
+       // Left-down check.
+       for (int i = 1;i < 5;i ++) {           
+            // Same deputy diagonal and same value.
+            if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    ((coordinate + i * (deskNumOfColumns + 1) - i) <= coordinateMaxBound) && 
+                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
+                
+                countOfSameChessman ++;                
+            } else {
+                break;
+            }            
+        }
+       
+       // Right-up check.
+        for (int i = 1;i < 5;i ++) {
+            // Same deputy diagonal and same value.
+            if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
+                    ((coordinate - i * (deskNumOfColumns + 1) + i) >= coordinateMinBound) &&
+                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
+                countOfSameChessman ++;
+            } else {
+                break;
+            }
+        }
+        if (countOfSameChessman >= 5)
+            return valueOfCoordinate;
         
         // Game continues, nobody wins.
         return 0;                

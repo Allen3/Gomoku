@@ -48,7 +48,7 @@ public class DeskController {
      * @return The player who are supposed to lay the chessman in this round.
      */
     public int getRoundPlayer() {
-        if (round % 2 == 0) {
+        if (round % 2 != 0) {
             return offensivePlayer;
         } else {
             return (3 - offensivePlayer);

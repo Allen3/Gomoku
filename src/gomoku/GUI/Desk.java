@@ -14,6 +14,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -105,6 +106,11 @@ public class Desk extends Pane {
         
     public void setChessman(int player) {
         Circle chessman = new Circle();
+        // Applay different colors for different players.
+        if (player == 2) {
+            chessman.setFill(Color.rgb(91, 127, 255));
+        }
+        
         this.getChildren().add(chessman);
         
         chessman.setRadius(CHESSMANRADIUS);
@@ -131,11 +137,6 @@ public class Desk extends Pane {
             
             if (targetPos != null) {
                 int coordinate = (int) (targetPos.getY() * (numOfColumns + 1) + targetPos.getX());
-//TEST
-                System.out.println("Coordinate = " + coordinate);
-//TEST
-                    System.out.println("Value of the coordinate = " +
-                            deskController.getJudger().getObservableIntegerArray().get(coordinate));                
                 
                 if (deskController.getJudger().isSettable(coordinate) == true) {                
                     
@@ -144,8 +145,6 @@ public class Desk extends Pane {
                      
                     deskController.getJudger().getObservableIntegerArray().set(coordinate, player);                
                 }
-//TEST
-                System.out.println("row(rounded) = " + targetPos.getY() + " column(rounded) = " + targetPos.getX());                
             }   
             
         });            
