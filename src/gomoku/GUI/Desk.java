@@ -7,16 +7,11 @@
 package gomoku.GUI;
 
 import gomoku.business.DeskController;
-import gomoku.business.Judger;
 import gomoku.util.Player;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableIntegerArray;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -97,7 +92,9 @@ public class Desk extends Pane {
     }   //setActive()
     
     /**
+     * 
      * Set the chess as an inactive state.
+     * 
      */
     public void setInactive() {
         this.setDisable(true);
@@ -105,16 +102,10 @@ public class Desk extends Pane {
         //this.toBack();
     }   //setInactive()
         
-    public void setChessman(Player player) {
-        Circle chessman = new Circle();
-        // Apply different colors for different players.
-        if (player == Player.PLAYER_B) {
-            chessman.setFill(Color.rgb(91, 127, 255));
-        }
+    public void setChessman(Player player) {        
+        Chessman chessman = new Chessman(CHESSMANRADIUS, player);        
         
-        this.getChildren().add(chessman);
-        
-        chessman.setRadius(CHESSMANRADIUS);
+        this.getChildren().add(chessman);                
         
         this.setCursor(Cursor.NONE);
         
@@ -145,6 +136,7 @@ public class Desk extends Pane {
                     chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
                      
                     deskController.getJudger().getObservableIntegerArray().set(coordinate, player.getId());
+                    deskController.getJudger().getChessmanCoordinateMap().put(coordinate, chessman);
                 }
             }   
             

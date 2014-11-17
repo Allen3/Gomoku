@@ -6,17 +6,27 @@
 
 package gomoku.business;
 
+import gomoku.GUI.Chessman;
+import gomoku.GUI.ChessmanHighlighter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 
-/**
- * The back-end class to judge the state of the game.
+/** 
+ * 
  * @author allen
+ * 
+ * The back-end class to judge the state of the game.
  */
 public class Judger {        
     private DeskController deskController;
     
-    private final ObservableIntegerArray observableIntegerArray;    
+    private ChessmanHighlighter chessmanHighlighter;
+    
+    private final ObservableIntegerArray observableIntegerArray;
+    private final HashMap<Integer, Chessman> chessmanCoordinateMap;
+    private final ArrayList<Integer> winningChessmanList;
     
     private final int deskNumOfRows;
     private final int deskNumOfColumns;
@@ -24,7 +34,9 @@ public class Judger {
     public Judger(DeskController deskController, int numOfRows, int numOfColumns) {
         this.deskController = deskController;
                         
-        observableIntegerArray = FXCollections.observableIntegerArray();    
+        observableIntegerArray = FXCollections.observableIntegerArray();
+        chessmanCoordinateMap = new HashMap<Integer, Chessman>();
+        winningChessmanList = new ArrayList<Integer>();
         
         this.deskNumOfRows = numOfRows;
         this.deskNumOfColumns = numOfColumns;
@@ -37,40 +49,41 @@ public class Judger {
             
             deskController.getDesk().setInactive();
                                     
-            //game continues
-            int judgeResult = judge(from);
-            if (judgeResult == 0) {                
+            //game continues            
+            if (isGameEnd(from) == false) {                
                 deskController.getDesk().setActive();
                 
                 // A new round begins.
                 deskController.roundInc();
                 deskController.getDesk().setChessman(deskController.getRoundPlayer());
                                                 
-            } else {
-                System.out.println("Player " + judgeResult + " wins!");
+            } else {                                
+                highlightWinningChessman();
+                System.out.println("Player " + (observableIntegerArray.get(from)) + " wins!");
             }
         });        
-    }   //Judger()
+    }   //Judger()   
     
     /**
      * 
-     * @param coordinate the coordinate to be judged.
-     * @return the player ID for the winner, 0 for game going on.
+     * @param coordinate the coordinate where the new chessman was laid.
+     * @return true{@code} for end, false{@code} for not.
      */
-    private int judge(int coordinate) {        
+    private boolean isGameEnd(int coordinate) {        
         int coordinateMaxBound = deskNumOfRows * (deskNumOfColumns + 1);
         int coordinateMinBound = 0;
         
         int valueOfCoordinate = observableIntegerArray.get(coordinate);
         
-        // Of the same row.
-        int countOfSameChessman = 1;                
+        // Of the same row.        
+        winningChessmanList.clear();
+        winningChessmanList.add(coordinate);
         // Right check.
         for (int i = 1;i < 5;i ++) {            
             // Same row and same value.
             if ((coordinate + i <= coordinateMaxBound) && (((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) && 
-                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {                
+                winningChessmanList.add(coordinate + i);                
             } else {
                 break;
             }            
@@ -81,23 +94,24 @@ public class Judger {
             // Same row and same vlaue.
             if ((coordinate - i >= coordinateMinBound) && (((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     observableIntegerArray.get(coordinate - i) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                winningChessmanList.add(coordinate - i);
             } else {
                 break;
             }
         }        
-        if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+        if (winningChessmanList.size() >= 5)
+            return true;
         
         
         // Of the same column.
-        countOfSameChessman = 1;
+        winningChessmanList.clear();
+        winningChessmanList.add(coordinate);
         // Down check.
         for (int i = 1;i < 5;i ++) {
             // Same column and same value.
             if (((coordinate + i * (deskNumOfColumns + 1)) <= coordinateMaxBound) &&
                     observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1));
             } else {
                 break;
             }
@@ -108,17 +122,18 @@ public class Judger {
             // Same column and same value.
             if (((coordinate - i * (deskNumOfColumns + 1)) >= coordinateMinBound) &&
                     observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1));
             } else {
                 break;
             }
         }
-        if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+        if (winningChessmanList.size() >= 5)
+            return true;
         
         
         // Of the same principal diagonal.
-        countOfSameChessman = 1;
+        winningChessmanList.clear();
+        winningChessmanList.add(coordinate);
         // Right-down check.
         for (int i = 1;i < 5;i ++) {           
             // Same principal diagonal and same value.
@@ -126,7 +141,7 @@ public class Judger {
                     ((coordinate + i * (deskNumOfColumns + 1) + i) <= coordinateMaxBound) && 
                     observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
                 
-                countOfSameChessman ++;                
+                winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1) + i);
             } else {
                 break;
             }            
@@ -138,17 +153,18 @@ public class Judger {
             if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate - i * (deskNumOfColumns + 1) - i) >= coordinateMinBound) &&
                     observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1) - i);
             } else {
                 break;
             }
         }
-        if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+        if (winningChessmanList.size() >= 5)
+            return true;
         
         
        //Of the same deputy diagonal.
-       countOfSameChessman = 1;
+       winningChessmanList.clear();
+       winningChessmanList.add(coordinate);
        // Left-down check.
        for (int i = 1;i < 5;i ++) {           
             // Same deputy diagonal and same value.
@@ -156,7 +172,7 @@ public class Judger {
                     ((coordinate + i * (deskNumOfColumns + 1) - i) <= coordinateMaxBound) && 
                     observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
                 
-                countOfSameChessman ++;                
+                winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1) - i);
             } else {
                 break;
             }            
@@ -168,17 +184,30 @@ public class Judger {
             if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate - i * (deskNumOfColumns + 1) + i) >= coordinateMinBound) &&
                     observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
-                countOfSameChessman ++;
+                winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1) + i);
             } else {
                 break;
             }
         }
-        if (countOfSameChessman >= 5)
-            return valueOfCoordinate;
+        if (winningChessmanList.size() >= 5)
+            return true;
         
         // Game continues, nobody wins.
-        return 0;                
-    }   //judge()
+        return false;               
+    }   //isGameEnd()
+        
+    private void highlightWinningChessman() {           
+        ArrayList<Chessman> highlightedChessmanRenderList = new ArrayList<Chessman>();
+        for (int coordinate : winningChessmanList) {        
+//TEST
+            System.out.println("Coordinate = " + coordinate);
+            
+            highlightedChessmanRenderList.add(chessmanCoordinateMap.get(coordinate));     
+        }
+                
+        chessmanHighlighter = new ChessmanHighlighter(highlightedChessmanRenderList);
+        chessmanHighlighter.handleHighlighting();        
+    }   //highlightWinningChessman()
     
     /**
      * 
@@ -194,5 +223,9 @@ public class Judger {
     public ObservableIntegerArray getObservableIntegerArray() {
         return observableIntegerArray;
     }   //getObservableIntegerArray()
-               
+
+    public HashMap<Integer, Chessman> getChessmanCoordinateMap() {
+        return chessmanCoordinateMap;
+    }   //getChessmanCoordinateMap()                   
+   
 }   //Judger
