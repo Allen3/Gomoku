@@ -6,7 +6,6 @@
 
 package gomoku.GUI;
 
-import gomoku.business.DeskController;
 import gomoku.util.Player;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;

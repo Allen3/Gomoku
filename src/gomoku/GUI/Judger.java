@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package gomoku.business;
+package gomoku.GUI;
 
+import gomoku.GUI.DeskController;
 import gomoku.GUI.Chessman;
 import gomoku.GUI.ChessmanHighlighter;
 import java.util.ArrayList;
