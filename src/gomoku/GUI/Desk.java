@@ -134,9 +134,11 @@ public class Desk extends Pane {
                     
                     chessman.setTranslateX(targetPos.getX() * gridInterval + PADSPACE);
                     chessman.setTranslateY(targetPos.getY() * gridInterval + PADSPACE);
-                     
-                    deskController.getJudger().getObservableIntegerArray().set(coordinate, player.getId());
+                                        
                     deskController.getJudger().getChessmanCoordinateMap().put(coordinate, chessman);
+                    
+                    // We should have the change to observable variable at last.
+                    deskController.getJudger().getObservableIntegerArray().set(coordinate, player.getId());                    
                 }
             }   
             

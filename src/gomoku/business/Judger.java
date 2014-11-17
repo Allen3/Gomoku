@@ -198,10 +198,7 @@ public class Judger {
         
     private void highlightWinningChessman() {           
         ArrayList<Chessman> highlightedChessmanRenderList = new ArrayList<Chessman>();
-        for (int coordinate : winningChessmanList) {        
-//TEST
-            System.out.println("Coordinate = " + coordinate);
-            
+        for (int coordinate : winningChessmanList) {                    
             highlightedChessmanRenderList.add(chessmanCoordinateMap.get(coordinate));     
         }
                 
