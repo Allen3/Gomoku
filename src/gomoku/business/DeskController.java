@@ -7,7 +7,6 @@
 package gomoku.business;
 
 import gomoku.GUI.Desk;
-import gomoku.RootLayout;
 import gomoku.util.Player;
 
 /**
@@ -17,13 +16,13 @@ import gomoku.util.Player;
 public class DeskController {
     private final Judger judger;        
     
-    private final Desk desk;
+    private final Desk desk;    
     
     private int round;
     private Player offensivePlayer;
     
     public DeskController(Desk desk) {        
-        this.desk = desk;
+        this.desk = desk;        
         
         // Should be assigned here as desk finish being initializing.
         judger = new Judger(this, desk.getNumOfRows(), desk.getNumOfColumns());
