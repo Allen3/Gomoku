@@ -16,15 +16,18 @@ import javafx.stage.Stage;
  */
 public class Gomoku extends Application {
         
-    private final RootLayout rootLayout;    
+    private final RootLayout rootLayout;
+
+    private Stage primaryStage;
 
     public Gomoku() {        
-        rootLayout = new RootLayout();
-    }   //Gomoku()        
+        rootLayout = new RootLayout(this);
+    }   //Gomoku()
     
     @Override
     public void start(Stage primaryStage) {        
-                        
+        this.primaryStage = primaryStage;
+
         Scene scene = new Scene(rootLayout.getRoot());
         
         primaryStage.setTitle("Gomoku");
@@ -38,5 +41,8 @@ public class Gomoku extends Application {
     public static void main(String[] args) {
         launch(args);
     }   //main()
-    
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }   //getPrimaryStage()
 }   //Gomoku

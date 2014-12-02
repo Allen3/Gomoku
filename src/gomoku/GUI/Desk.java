@@ -6,6 +6,7 @@
 
 package gomoku.GUI;
 
+import gomoku.Gomoku;
 import gomoku.util.Player;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
@@ -21,6 +22,7 @@ import javafx.scene.shape.Path;
  * @author allen
  */
 public class Desk extends Pane {
+    private final Gomoku mainApp;
     private final DeskController deskController;
     
     protected final static double PADSPACE = 50.0f;
@@ -35,7 +37,9 @@ public class Desk extends Pane {
     
     private Path grid = null;               
     
-    public Desk(int numOfRows, int numOfColumns, int gridInterval) {                        
+    public Desk(int numOfRows, int numOfColumns, int gridInterval, Gomoku mainApp) {
+        this.mainApp = mainApp;
+
         this.numOfRows = numOfRows;
         this.numOfColumns = numOfColumns;
         this.gridInterval = gridInterval;
@@ -52,7 +56,7 @@ public class Desk extends Pane {
         this.getChildren().add(grid);                       
 
         // Should be assigned here as the desk finish initializing.
-        deskController = new DeskController(this);
+        deskController = new DeskController(this, mainApp);
     }   //Desk()   
 
     /**

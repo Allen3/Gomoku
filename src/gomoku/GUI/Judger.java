@@ -11,8 +11,12 @@ import gomoku.GUI.Chessman;
 import gomoku.GUI.ChessmanHighlighter;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import gomoku.Gomoku;
+import gomoku.util.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
+import org.controlsfx.dialog.Dialogs;
 
 /** 
  * 
@@ -20,9 +24,11 @@ import javafx.collections.ObservableIntegerArray;
  * 
  * The back-end class to judge the state of the game.
  */
-public class Judger {        
+public class Judger {
+    private Gomoku mainApp;
     private DeskController deskController;
-    
+
+    private WinnerHighlighter winnerHighlighter;
     private ChessmanHighlighter chessmanHighlighter;
     
     private final ObservableIntegerArray observableIntegerArray;
@@ -32,7 +38,8 @@ public class Judger {
     private final int deskNumOfRows;
     private final int deskNumOfColumns;
 
-    public Judger(DeskController deskController, int numOfRows, int numOfColumns) {
+    public Judger(DeskController deskController, Gomoku mainApp, int numOfRows, int numOfColumns) {
+        this.mainApp = mainApp;
         this.deskController = deskController;
                         
         observableIntegerArray = FXCollections.observableIntegerArray();
@@ -60,11 +67,15 @@ public class Judger {
                                                 
             } else {                                
                 highlightWinningChessman();
-                System.out.println("Player " + (observableIntegerArray.get(from)) + " wins!");
+                //System.out.println("Player " + (observableIntegerArray.get(from)) + " wins!");
+
+                hightlightWinner(
+                        (observableIntegerArray.get(from) == Player.PLAYER_A.getId()) ?
+                                Player.PLAYER_A : Player.PLAYER_B);
             }
         });        
-    }   //Judger()   
-    
+    }   //Judger()
+
     /**
      * 
      * @param coordinate the coordinate where the new chessman was laid.
@@ -206,7 +217,12 @@ public class Judger {
         chessmanHighlighter = new ChessmanHighlighter(highlightedChessmanRenderList);
         chessmanHighlighter.handleHighlighting();        
     }   //highlightWinningChessman()
-    
+
+    private void hightlightWinner(Player winner) {
+        winnerHighlighter = new WinnerHighlighter(winner, mainApp);
+        winnerHighlighter.run();
+    }   //hightlightWinner()
+
     /**
      * 
      * @param coordinate the coordinate the chessman laid.

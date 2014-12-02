@@ -7,6 +7,7 @@
 package gomoku.GUI;
 
 import gomoku.GUI.Desk;
+import gomoku.Gomoku;
 import gomoku.util.Player;
 
 /**
@@ -14,6 +15,7 @@ import gomoku.util.Player;
  * @author allen
  */
 public class DeskController {
+    private final Gomoku mainApp;
     private final Judger judger;        
     
     private final Desk desk;    
@@ -21,11 +23,12 @@ public class DeskController {
     private int round;
     private Player offensivePlayer;
     
-    public DeskController(Desk desk) {        
+    public DeskController(Desk desk, Gomoku mainApp) {
+        this.mainApp = mainApp;
         this.desk = desk;        
         
         // Should be assigned here as desk finish being initializing.
-        judger = new Judger(this, desk.getNumOfRows(), desk.getNumOfColumns());
+        judger = new Judger(this, mainApp, desk.getNumOfRows(), desk.getNumOfColumns());
                 
         
         round = 0;        
@@ -33,7 +36,7 @@ public class DeskController {
             
     /**
      * 
-     * @param player value varies between 1 and 2 which represents the player respectively.
+     * @param offensivePlayer value varies between 1 and 2 which represents the player respectively.
      */
     public void setOffensivePlayer(Player offensivePlayer) {
         this.offensivePlayer = offensivePlayer;
