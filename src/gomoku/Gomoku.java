@@ -15,10 +15,9 @@ import javafx.stage.Stage;
  * @author allen
  */
 public class Gomoku extends Application {
-        
-    private final RootLayout rootLayout;
-
     private Stage primaryStage;
+    
+    private final RootLayout rootLayout;
 
     public Gomoku() {        
         rootLayout = new RootLayout(this);

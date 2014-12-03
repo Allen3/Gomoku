@@ -8,32 +8,37 @@ package gomoku.GUI;
 
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
+import javafx.scene.Node;
 import javafx.util.Duration;
 
 /**
+ * The highlighter to highlight the winning chessmen.
  *
  * @author allen
  */
 public class ChessmanHighlighter {
-    private final ArrayList<Chessman> highlightedChessmanList;
+    private final ArrayList<Chessman> highlightChessmanList;
 
-    public ChessmanHighlighter(ArrayList<Chessman> highlightedChessmanList) {
-        this.highlightedChessmanList = highlightedChessmanList;
+    public ChessmanHighlighter(ArrayList<Chessman> highlightChessmanList) {
+        this.highlightChessmanList = highlightChessmanList;
     }   //ChessmanHighlighter()
-           
-    public void handleHighlighting() {
-        for (final Chessman chessman : highlightedChessmanList) {            
-            
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), chessman);
-            fadeTransition.setToValue(0.3);
-            fadeTransition.setAutoReverse(true);   
-            fadeTransition.setCycleCount(2);
-            
-            fadeTransition.play();
+
+    /**
+     * Use Fade Transition to highlight the winning chessmen.
+     */
+    public void run() {
+        for (final Chessman chessman : highlightChessmanList) {
+            setFadeTransition(chessman).play();
         }
-                
-    }   //handleHighlighting()
-    
-    
-    
+    }   //run()
+
+    private FadeTransition setFadeTransition(Node node) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), node);
+        fadeTransition.setToValue(0.3);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.setCycleCount(4);
+
+        return fadeTransition;
+    }   //setFadeTransition()
+
 }   //ChessmanHighLighter

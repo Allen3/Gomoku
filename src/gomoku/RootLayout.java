@@ -1,6 +1,7 @@
 package gomoku;
 
 import gomoku.GUI.Desk;
+import gomoku.GUI.DeskController;
 import gomoku.util.Player;
 import javafx.scene.Parent;
 
@@ -20,12 +21,12 @@ public class RootLayout {
     private final Gomoku mainApp;
 
     private final Parent root;
-    
-    private final int numOfRows_Desk;
-    private final int numOfColumns_Desk;
-    private final int gridInterval_Desk;
-            
-    private final Desk desk;            
+    private final Desk desk;
+    private final DeskController deskController;
+
+    private final int numOfRows_Desk;       // Number of row grid lines, NOT row grid.
+    private final int numOfColumns_Desk;    // Number of column grid lines, NOT column grid.
+    private final int gridInterval_Desk;    // Value of grid interval.
 
     public RootLayout(Gomoku mainApp) {
         this.mainApp = mainApp;
@@ -36,9 +37,10 @@ public class RootLayout {
         
         desk = new Desk(numOfRows_Desk, numOfColumns_Desk, gridInterval_Desk, mainApp);
                 
-        this.root = desk;      
-        
-        desk.getDeskController().setOffensivePlayer(Player.PLAYER_A);
+        this.root = desk;
+        deskController = desk.getDeskController();
+
+        deskController.setOffensivePlayer(Player.PLAYER_A);
     }   //panel()
         
 
