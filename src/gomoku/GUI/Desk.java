@@ -140,7 +140,7 @@ public class Desk extends Pane {
                                         
                     deskController.getJudger().getChessmanCoordinateMap().put(coordinate, chessman);
                     
-                    // We should have the change to observable variable at last.
+                    // We should make the change to observable variable at last.
                     deskController.getJudger().getObservableIntegerArray().set(coordinate, player.getId());                    
                 }
             }   
