@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package gomoku.business;
+package gomoku.GUI;
 
 import gomoku.GUI.Desk;
 import gomoku.util.Player;

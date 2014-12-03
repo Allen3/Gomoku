@@ -4,11 +4,8 @@
  * and open the template in the editor.
  */
 
-package gomoku.business;
+package gomoku.GUI;
 
-import gomoku.util.Player;
-import gomoku.GUI.Chessman;
-import gomoku.GUI.ChessmanHighlighter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.collections.FXCollections;
@@ -199,8 +196,8 @@ public class Judger {
         
     private void highlightWinningChessman() {           
         ArrayList<Chessman> highlightedChessmanRenderList = new ArrayList<Chessman>();
-        for (int coordinate : winningChessmanList) {        
 
+        for (int coordinate : winningChessmanList) {
             highlightedChessmanRenderList.add(chessmanCoordinateMap.get(coordinate));     
         }
                 

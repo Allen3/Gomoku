@@ -22,14 +22,12 @@ public class ChessmanHighlighter {
     }   //ChessmanHighlighter()
            
     public void handleHighlighting() {
-        for (final Chessman chessman : highlightedChessmanList) {
+        for (final Chessman chessman : highlightedChessmanList) {            
             
-//TEST
-            System.out.println(chessman);
-            
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(3000), chessman);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), chessman);
             fadeTransition.setToValue(0.3);
-            fadeTransition.setAutoReverse(true);            
+            fadeTransition.setAutoReverse(true);   
+            fadeTransition.setCycleCount(2);
             
             fadeTransition.play();
         }
