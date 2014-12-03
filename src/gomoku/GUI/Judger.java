@@ -6,9 +6,6 @@
 
 package gomoku.GUI;
 
-import gomoku.GUI.DeskController;
-import gomoku.GUI.Chessman;
-import gomoku.GUI.ChessmanHighlighter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -56,9 +53,9 @@ public class Judger {
         observableIntegerArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
             
             deskController.getDesk().setInactive();
-                                    
             //game continues            
-            if (isGameEnd(from) == false) {                
+            if (isGameEnd(from) == false) {
+
                 deskController.getDesk().setActive();
                 
                 // A new round begins.
@@ -81,7 +78,7 @@ public class Judger {
      * @param coordinate the coordinate where the new chessman was laid.
      * @return true{@code} for end, false{@code} for not.
      */
-    private boolean isGameEnd(int coordinate) {        
+    private boolean isGameEnd(int coordinate) {
         int coordinateMaxBound = deskNumOfRows * (deskNumOfColumns + 1);
         int coordinateMinBound = 0;
         
@@ -110,7 +107,7 @@ public class Judger {
             } else {
                 break;
             }
-        }        
+        }
         if (winningChessmanList.size() >= 5)
             return true;
         
@@ -210,7 +207,8 @@ public class Judger {
         
     private void highlightWinningChessman() {           
         ArrayList<Chessman> highlightedChessmanRenderList = new ArrayList<Chessman>();
-        for (int coordinate : winningChessmanList) {                    
+
+        for (int coordinate : winningChessmanList) {
             highlightedChessmanRenderList.add(chessmanCoordinateMap.get(coordinate));     
         }
                 
