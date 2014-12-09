@@ -180,7 +180,7 @@ public class Desk extends Pane {
             // Get the grid line point where the chessman to be laid.
             Point2D targetPos = checkAround(newTranslateX, newTranslateY , col, row);
 
-            // Check the new position and make some changes to background data if able.
+            // Check the new position and make some changes to background data if possible.
             if (targetPos != null) {
                 int coordinate = (int) (targetPos.getY() * (numOfColumns + 1) + targetPos.getX());
                 
@@ -192,7 +192,7 @@ public class Desk extends Pane {
                     deskController.getChessmanCoordinateMap().put(coordinate, chessman);
                     
                     // We should make the change to observable variable at last.
-                    deskController.getObservableIntegerArray().set(coordinate, player.getId());
+                    deskController.getChessmanCoordinateArray().set(coordinate, player.getId());
                 }
             }   
             

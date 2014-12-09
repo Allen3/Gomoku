@@ -6,7 +6,9 @@
 
 package gomoku.business;
 
+import gomoku.util.MarshallingCodecFactory;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import static io.netty.channel.ChannelOption.TCP_NODELAY;
 import io.netty.channel.EventLoopGroup;
@@ -19,10 +21,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * @author allen
  */
 public class Client {
-    
-    private final EventLoopGroup group = new NioEventLoopGroup();
-    
-    public void connect() {
+
+    public void connect(int port, String host) throws InterruptedException {
+
+        EventLoopGroup group = new NioEventLoopGroup();
         
         try {            
             Bootstrap bootstrap = new Bootstrap();
@@ -35,22 +37,16 @@ public class Client {
 
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    
-                    //socketChannel.pipeline().addLast("MessageDecoder", new MessageDecoder());
-                    //socketChannel.pipeline().addLast("MessageEncoder", new MessageEncoder());
-                    //socketChannel.pipeline().addLast("DetectTimeoutHandler", new DetectTimeoutHandler());
-                    //socketChannel.pipeline().addLast("LoginAuthenticationHandler", new LoginAuthenticationHandler());
-                    //socketChannel.pipeline().addLast("HeartBeatHandler", new HeartBeatHandler());
-                    
+                    socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingDecoder());
+                    socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingEncoder());
+                    socketChannel.pipeline().addLast(new DeskInformationHandler());
                 }   //initChannel();
-                        
                     });
-            
+
+            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
             
         } finally {
             group.shutdownGracefully();
         }
-        
     }   //connect()
-    
 }   //Client

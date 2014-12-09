@@ -13,6 +13,7 @@ import javafx.collections.ObservableIntegerArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 /**
  * Controller to control the background game business logic of desk.
@@ -33,7 +34,7 @@ public class DeskController {
      *  Both these two variables are maps for chessman and coordinate, respectively.
      *  The first one is an observable so we add listeners to listen changes to it.
      */
-    private final ObservableIntegerArray observableIntegerArray;    // Chessman -> Integer
+    private final ObservableIntegerArray chessmanCoordinateArray;    // Chessman -> Integer
     private final HashMap<Integer, Chessman> chessmanCoordinateMap; // Integer -> Chessman
 
     // The list to record the coordinate of winning chessmen.
@@ -51,16 +52,16 @@ public class DeskController {
 
         this.round = 0;
 
-        observableIntegerArray = FXCollections.observableIntegerArray();
+        chessmanCoordinateArray = FXCollections.observableIntegerArray();
         // Assure that the array has no preset value.
-        observableIntegerArray.clear();
-        observableIntegerArray.resize((deskNumOfRows + 1) * (deskNumOfColumns + 1));
+        chessmanCoordinateArray.clear();
+        chessmanCoordinateArray.resize((deskNumOfRows + 1) * (deskNumOfColumns + 1));
 
         chessmanCoordinateMap = new HashMap<>();
         winningChessmanList = new ArrayList<>();
 
         // Add listeners to connect background data and UI operations.
-        observableIntegerArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
+        chessmanCoordinateArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
 
             desk.setInactive();
             // Game continues.
@@ -81,7 +82,7 @@ public class DeskController {
 
                 // Highlight the winner to declare the result.
                 hightlightWinner(
-                        (observableIntegerArray.get(from) == Player.PLAYER_A.getId()) ?
+                        (chessmanCoordinateArray.get(from) == Player.PLAYER_A.getId()) ?
                                 Player.PLAYER_A : Player.PLAYER_B);
             }
         });
@@ -98,7 +99,7 @@ public class DeskController {
         int coordinateUpperBound = deskNumOfRows * (deskNumOfColumns + 1);
         int coordinateLowerBound = 0;
 
-        int valueOfCoordinate = observableIntegerArray.get(coordinate);
+        int valueOfCoordinate = chessmanCoordinateArray.get(coordinate);
 
         /*
          * Of the same row.
@@ -109,7 +110,7 @@ public class DeskController {
         for (int i = 1;i < 5;i ++) {
             // Same row and same value.
             if ((coordinate + i <= coordinateUpperBound) && (((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
-                    observableIntegerArray.get(coordinate + i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate + i) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate + i);
             } else {
                 break;
@@ -120,7 +121,7 @@ public class DeskController {
         for (int i = 1;i < 5;i ++) {
             // Same row and same value.
             if ((coordinate - i >= coordinateLowerBound) && (((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
-                    observableIntegerArray.get(coordinate - i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate - i) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate - i);
             } else {
                 break;
@@ -138,7 +139,7 @@ public class DeskController {
         for (int i = 1;i < 5;i ++) {
             // Same column and same value.
             if (((coordinate + i * (deskNumOfColumns + 1)) <= coordinateUpperBound) &&
-                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate + i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1));
             } else {
                 break;
@@ -149,7 +150,7 @@ public class DeskController {
         for (int i = 1;i < 5;i ++) {
             // Same column and same value.
             if (((coordinate - i * (deskNumOfColumns + 1)) >= coordinateLowerBound) &&
-                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate - i * (deskNumOfColumns + 1)) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1));
             } else {
                 break;
@@ -169,7 +170,7 @@ public class DeskController {
             // Same principal diagonal and same value.
             if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate + i * (deskNumOfColumns + 1) + i) <= coordinateUpperBound) &&
-                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate + i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
 
                 winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1) + i);
             } else {
@@ -182,7 +183,7 @@ public class DeskController {
             // Same principal diagonal and same value.
             if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate - i * (deskNumOfColumns + 1) - i) >= coordinateLowerBound) &&
-                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate - i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1) - i);
             } else {
                 break;
@@ -202,7 +203,7 @@ public class DeskController {
             // Same deputy diagonal and same value.
             if ((((coordinate - i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate + i * (deskNumOfColumns + 1) - i) <= coordinateUpperBound) &&
-                    observableIntegerArray.get(coordinate + i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate + i * (deskNumOfColumns + 1) - i) == valueOfCoordinate) {
 
                 winningChessmanList.add(coordinate + i * (deskNumOfColumns + 1) - i);
             } else {
@@ -215,7 +216,7 @@ public class DeskController {
             // Same deputy diagonal and same value.
             if ((((coordinate + i) / (deskNumOfColumns + 1)) == (coordinate / (deskNumOfColumns + 1))) &&
                     ((coordinate - i * (deskNumOfColumns + 1) + i) >= coordinateLowerBound) &&
-                    observableIntegerArray.get(coordinate - i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
+                    chessmanCoordinateArray.get(coordinate - i * (deskNumOfColumns + 1) + i) == valueOfCoordinate) {
                 winningChessmanList.add(coordinate - i * (deskNumOfColumns + 1) + i);
             } else {
                 break;
@@ -258,14 +259,14 @@ public class DeskController {
      * @return the state whether the chessman is able to be laid there.
      */
     public boolean isSettable(int coordinate) {
-        if (observableIntegerArray.get(coordinate) == 0)
+        if (chessmanCoordinateArray.get(coordinate) == 0)
             return true;
         return false;
     }   //isSettable()
 
-    public ObservableIntegerArray getObservableIntegerArray() {
-        return observableIntegerArray;
-    }   //getObservableIntegerArray()
+    public ObservableIntegerArray getChessmanCoordinateArray() {
+        return chessmanCoordinateArray;
+    }   //getChessmanCoordinateArray()
 
     public HashMap<Integer, Chessman> getChessmanCoordinateMap() {
         return chessmanCoordinateMap;
