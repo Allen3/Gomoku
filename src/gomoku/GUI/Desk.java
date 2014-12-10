@@ -7,6 +7,7 @@
 package gomoku.GUI;
 
 import gomoku.Gomoku;
+import gomoku.RootLayoutController;
 import gomoku.util.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 public class Desk extends Pane {
     private final Gomoku mainApp;
+    private final RootLayoutController rootLayoutController;
     private final DeskController deskController;
     
     protected final static double PADSPACE = 50.0f;
@@ -55,8 +57,9 @@ public class Desk extends Pane {
      * @param gridInterval The value of grid interval.
      * @param mainApp The Gomoku mainApp reference.
      */
-    public Desk(int numOfRows, int numOfColumns, int gridInterval, Gomoku mainApp) {
+    public Desk(int numOfRows, int numOfColumns, int gridInterval, Gomoku mainApp, RootLayoutController rootLayoutController) {
         this.mainApp = mainApp;
+        this.rootLayoutController = rootLayoutController;
 
         this.numOfRows = numOfRows;
         this.numOfColumns = numOfColumns;

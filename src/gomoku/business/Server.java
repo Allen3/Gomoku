@@ -17,6 +17,12 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class Server {
 
+    private final DeskInformationHandler deskInformationHandler;
+
+    public Server() {
+        deskInformationHandler = new DeskInformationHandler();
+    }   //Server()
+
     public void bind(int port) throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -35,7 +41,7 @@ public class Server {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingDecoder());
                             socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingEncoder());
-                            socketChannel.pipeline().addLast(new DeskInformationHandler());
+                            socketChannel.pipeline().addLast(deskInformationHandler);
 
                         }   //initChannel()
 
@@ -49,4 +55,7 @@ public class Server {
         }   //try-finally
     }   //bind()
 
+    public DeskInformationHandler getDeskInformationHandler() {
+        return deskInformationHandler;
+    }   //getDeskInformationHandler()
 }   //Server

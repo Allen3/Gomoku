@@ -17,10 +17,13 @@ public class DeskInformation implements Serializable{
     private final int round;
     private final Player roundPlayer;
 
-    private final ArrayList<Integer> chessmanCoordinateArray;
+    private final int[] chessmanCoordinateArray;
     private final HashMap<Integer, Chessman> chessmanCoordinateMap;
 
-    public DeskInformation(int round, Player roundPlayer, ArrayList<Integer> chessmanCoordinateArray, HashMap<Integer, Chessman> chessmanCoordinateMap) {
+    public DeskInformation(int round,
+                           Player roundPlayer,
+                           int[] chessmanCoordinateArray,
+                           HashMap<Integer, Chessman> chessmanCoordinateMap) {
         this.round = round;
         this.roundPlayer = roundPlayer;
         this.chessmanCoordinateArray = chessmanCoordinateArray;
@@ -35,7 +38,7 @@ public class DeskInformation implements Serializable{
         return roundPlayer;
     }   //getRoundPlayer()
 
-    public ArrayList<Integer> getArrayList() {
+    public int[] getArrayList() {
         return chessmanCoordinateArray;
     }   //getArrayList()
 

@@ -7,13 +7,13 @@
 package gomoku.GUI;
 
 import gomoku.Gomoku;
+import gomoku.util.DeskInformation;
 import gomoku.util.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableIntegerArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
 
 /**
  * Controller to control the background game business logic of desk.
@@ -40,7 +40,7 @@ public class DeskController {
     // The list to record the coordinate of winning chessmen.
     private final ArrayList<Integer> winningChessmanList;
 
-    private int round;
+    private int round;                                              // Round will be start from 1.
     private Player offensivePlayer;
     
     public DeskController(Desk desk, Gomoku mainApp) {
@@ -62,16 +62,24 @@ public class DeskController {
 
         // Add listeners to connect background data and UI operations.
         chessmanCoordinateArray.addListener((ObservableIntegerArray observable, boolean sizeChanged, int from, int to) -> {
-
             desk.setInactive();
+
+            // Send desk information data to the opposite player.
+            if (isOperable()) {
+                deliverData();
+            } else {
+                receiveData();
+            }
+
             // Game continues.
             if (isGameEnd(from) == false) {
-
-                desk.setActive();
-
-                // A new round begins.
+                // A new round.
                 roundInc();
-                desk.setChessman(getRoundPlayer());
+
+                if (isOperable()) {
+                    desk.setActive();
+                    desk.setChessman(getRoundPlayer());
+                }
 
             } else {
                 /*
@@ -87,6 +95,31 @@ public class DeskController {
             }
         });
     }   //DeskController()
+
+    private void deliverData() {
+        DeskInformation deskInformation = new DeskInformation(
+                round,
+                getRoundPlayer(),
+                chessmanCoordinateArray.toArray(new int[chessmanCoordinateArray.size()]),
+                chessmanCoordinateMap);
+
+        if (mainApp.isServer()) {
+            mainApp.getServer().getDeskInformationHandler().write(null, deskInformation, null);
+        }
+
+    }   //deliverData()
+
+    /**
+     * Check if the operator and the round player are the same one.
+     *
+     * @return {@code true} for yes, {@code false} for not
+     */
+    private boolean isOperable() {
+        if ((mainApp.isServer() && getRoundPlayer() == offensivePlayer) ||
+                (mainApp.isClient() && getRoundPlayer() == offensivePlayer.switchPlayer()))
+            return true;
+        return false;
+    }   //isOperable()
 
     /**
      * Check if this game is end.
@@ -305,4 +338,5 @@ public class DeskController {
     public void roundInc() {
         round ++;
     }   //roundInc()
+
 }   //DeskController

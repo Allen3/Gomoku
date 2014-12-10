@@ -22,6 +22,12 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class Client {
 
+    private final DeskInformationHandler deskInformationHandler;
+
+    public Client() {
+        deskInformationHandler = new DeskInformationHandler();
+    }   //Client()
+
     public void connect(int port, String host) throws InterruptedException {
 
         EventLoopGroup group = new NioEventLoopGroup();
@@ -39,7 +45,7 @@ public class Client {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingDecoder());
                     socketChannel.pipeline().addLast(MarshallingCodecFactory.buildMarshallingEncoder());
-                    socketChannel.pipeline().addLast(new DeskInformationHandler());
+                    socketChannel.pipeline().addLast(deskInformationHandler);
                 }   //initChannel();
                     });
 
@@ -49,4 +55,8 @@ public class Client {
             group.shutdownGracefully();
         }
     }   //connect()
+
+    public DeskInformationHandler getDeskInformationHandler() {
+        return deskInformationHandler;
+    }   //getDeskInformationHandler()
 }   //Client
